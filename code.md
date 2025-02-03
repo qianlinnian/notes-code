@@ -69,8 +69,20 @@ len：要截取的长度。如果 len 超过了字符串的剩余长度，则会
 [双指针【模板】](https://ac.nowcoder.com/acm/contest/20960?from=acdiscuss)  
     思路：滑动窗口,使用双指针维护无重复元素的窗口。
     从头到尾比较，记录每个数字出现的次数和maxlen，并根据次数>1 时候，右移left 即窗口。
-    
-
+[小写字母](https://ac.nowcoder.com/acm/contest/20960/1015)
+vector<long long> sum(2 * n + 1, 0);
+#### 前缀和
+> 环形结构的考虑
+``` cpp    
+    // 第一遍：计算前n个数的前缀和
+    for(int i = 0; i < n; i++) {
+        sum[i + 1] = sum[i] + dist[i];
+    }
+    // 第二遍：复制一遍，处理环形情况
+    for(int i = n; i < 2 * n; i++) {
+        sum[i + 1] = sum[i] + dist[i - n];
+    }
+```
 #### 质数
 ```cpp
  bool gcd (long long a,long long b)
@@ -85,5 +97,5 @@ len：要截取的长度。如果 len 超过了字符串的剩余长度，则会
      return a==1;
  }
 ```
-## 算法
+
 ### 快速排序
