@@ -97,5 +97,9 @@ vector<long long> sum(2 * n + 1, 0);
      return a==1;
  }
 ```
+#### 位运算的应用
+[翻转游戏](https://ac.nowcoder.com/acm/contest/20960/1018)  
+将数字利用位来表示.
+
 
 ### 快速排序
