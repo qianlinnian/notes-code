@@ -25,6 +25,7 @@ string substr(size_t pos = 0, size_t len = npos) const;
 pos：起始位置（从 0 开始计数）。
 len：要截取的长度。如果 len 超过了字符串的剩余长度，则会截取到字符串的末尾。
 返回值：返回一个新的字符串，包含从 pos 开始、长度为 len 的子串。
+
 #### 集合
 集合的定义：  
     在计算机科学和编程中，集合（Set） 是一种数据结构，用于存储一组互不相同的元素，且通常不保证元素的顺序。它基于数学中的集合概念，并提供高效的插入、删除和查找操作。  
@@ -51,7 +52,22 @@ len：要截取的长度。如果 len 超过了字符串的剩余长度，则会
 例题：  
 [学号：查找absent学生（hard） ](https://ac.nowcoder.com/acm/contest/20960/1022)
 
-####  
+#### pair
+pair 是一个简单的容器，可以将两个值（可能是不同类型）组合在一起。
+它的主要成员是 first 和 second，分别存储两个值。
+可以通过直接构造或 make_pair 创建 pair。  
+pair 常用于返回多个值、存储键值对或排序辅助等场景。
+```cpp
+template <class T1, class T2>
+struct pair {
+    T1 first;  // 第一个元素
+    T2 second; // 第二个元素
+};
+```
+
+
+####  sort
+
 ```cpp
 // 按自定义规则排序
     sort(nums.begin(), nums.end(), compare);
