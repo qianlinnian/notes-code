@@ -78,3 +78,31 @@ struct pair {
 #### 排列
 
 长度为 𝑛 的排列是由 1 ∼𝑛 这 𝑛 个整数、按任意顺序组成的数组，其中每个整数恰好出现一次。例如，{2,3,1,5,4}{2,3,1,5,4} 是一个长度为 5 的排列，而 {1,2,2}{1,2,2} 和 {1,3,4}{1,3,4} 都不是排列，因为前者存在重复元素，后者包含了超出范围的数。
+
+#### 优先级队列
+
+``` cpp
+priority_queue<mymessages, vector<mymessages>, CompareRight>
+priority_queue<
+    mymessages,                // 第一个参数：存储的元素类型
+    vector<mymessages>,        // 第二个参数：底层容器类型
+    CompareRight               // 第三个参数：比较函数的类型
+> pq;                         // pq 是优先队列的变量名
+```
+在优先级队列中重载比较运算符有两种主要方式：   
+- 使用结构体重载运算符  
+- 使用比较函数对象（仿函数）
+```cpp
+// 优先队列的比较函数
+struct CompareRight {
+    bool operator()(const mymessages& a, const mymessages& b) {
+        return a.lr.second > b.lr.second;  // 小顶堆，按右端点排序
+    }
+};
+```
+在优先队列的比较函数中，operator() 的返回值决定了元素的优先级：
+
+如果返回 true，表示第一个元素优先级低于第二个元素
+如果返回 false，表示第一个元素优先级高于第二个元素
+
+sort 和 priority_queue 的比较函数确实是相反的行为。
