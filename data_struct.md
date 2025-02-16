@@ -115,3 +115,78 @@ sort 和 priority_queue 的比较函数确实是相反的行为。
 - 空间复杂度：O(4N)
 - 查询和修改的时间复杂度：O(logN)
 
+#### map
+map 是 C++ STL (标准模板库) 中的一个容器;    
+`map<Key, Value> name;  // Key是键的类型，Value是值的类型`
+存储键值对 (key-value pairs)
+键必须唯一
+默认按键的升序排序
+内部实现通常是红黑树
+```cpp
+// 声明
+map<string, int> m;
+map<int, string> scores;
+
+// 插入元素
+m["apple"] = 1;       // 方式1
+m.insert({"banana", 2}); // 方式2
+
+// 访问元素
+int value = m["apple"];  // 如果key不存在，会创建并返回默认值
+int value2 = m.at("apple");  // 如果key不存在，会抛出异常
+
+// 检查是否存在
+if(m.count("apple")) { ... }  // 存在返回1，不存在返回0
+if(m.find("apple") != m.end()) { ... }  // 另一种检查方式
+
+// 删除元素
+m.erase("apple");
+
+// 获取大小
+int size = m.size();
+
+// 遍历
+for(auto& pair : m) {
+    cout << pair.first << ": " << pair.second << endl;
+}
+```
+```cpp
+map<int, int> m;
+
+// 1. 访问不存在的键会创建它
+m[100];  // 会创建键100，值为0
+
+// 2. 安全的查找方式
+auto it = m.find(100);
+if(it != m.end()) {
+    // 键存在
+    cout << it->second;
+}
+
+// 3. 插入检查
+auto [it, inserted] = m.insert({1, 10});
+if(inserted) {
+    cout << "插入成功";
+}
+
+// 4. 清空map
+m.clear();
+
+```
+
+#### 线段树
+线段树使用一种树状结构来存储一个连续区间的信息的数据结构。
+采用了二分的概念。
+左儿子=父节点*2  右儿子=父节点 *2+1
+父节点=子节点/2；
+最大深度为logn级别。
+重点是维护什么
+- 直接算区间修改之后要哪些量
+- 子区间合并为大的区间需要什么量，维护什么。
+
+#### ST表
+这实际上是一种倍增的方法。
+用一个二维数组f(i,j)即区间[i,i+2^j-1]（持续2^j个）区间中的最小值。
+其中f[i,0]=a[i];
+所以对于任意一组(i,j)
+f(i,j)=min{f(i,j-1),f(i+2^(j-1),j-1)}来使用动态规划计算出来。
