@@ -196,4 +196,6 @@ f(i,j)=min{f(i,j-1),f(i+2^(j-1),j-1)}来使用动态规划计算出来。
 单调函数求零点，查找某个元素。   
 限定次数的循环(对于double)
 
+#### vector
+`nums.erase(nums.begin() + i)`
 #### 主席树
