@@ -33,4 +33,53 @@
 #### **28.找出字符串第一个匹配项的下标**
     显而易见的KMP，可惜不会。
 
+#### **70.爬楼梯**
+    假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+
+    我们用 f(x) 表示爬到第 x 级台阶的方案数，考虑最后一步可能跨了一级台阶，也可能跨了两级台阶，所以我们可以列出如下式子：
+    f(x)=f(x−1)+f(x−2)
+    
+#### **100.相同的树**
+    判断是不是相同的树
+    利用递归；
+
+#### **101.对称的树**
+    判断树是不是对称，与上题同理；
+
+#### **104.二叉树的最大深度**
+    如题，还是递归；
+
+#### **108.将有序数组转换为平衡二叉搜索树**
+    思路：二份与递归结合
+```cpp
+    class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return helper(nums, 0, nums.size() - 1);
+    }
+
+    TreeNode* helper(vector<int>& nums, int left, int right) {
+        if (left > right) {
+            return nullptr;
+        }
+
+        // 总是选择中间位置左边的数字作为根节点
+        int mid = (left + right) / 2;
+
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = helper(nums, left, mid - 1);
+        root->right = helper(nums, mid + 1, right);
+        return root;
+    }
+};
+```
+
+#### **109.判断是不是平衡二叉树**
+    通过判断根的左右树高度差是不是小于等于1，且左右两棵树是否平衡
+    递归
+#### **110.二叉树的最小深度**
+    递归
+    循环：  要善用队列
+
+
 
