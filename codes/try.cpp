@@ -1,46 +1,40 @@
 #include<iostream>
-#include<vector>
 #include<string>
- 
 using namespace std;
-int strStr(string haystack, string needle) {
-//kmp
-    int len1=haystack.length();
-    int len2=needle.length();
-    vector<int> next(len2,0);
-    int j=0;
-    for(int i=0;i<len2;i++)
+
+bool isPalindrome(string s) {
+    int len=s.length();
+    int con=0;
+    for(int i=0;i<len;i++)
     {
-        while (j > 0 && needle[i] != needle[j]) {
-            j = next[j - 1];
-            
-            if (needle[i] == needle[j]) {
-               j++;
-            }
-            next[i] = j;
+        if(s[i]>='A'&&s[i]<='Z')
+        {
+            s[i]+='a'-'A';
+            continue;
         }
-    
-        j=0;
-        for (int i = 0; i <len1; i++) {  
-            while (j > 0 && haystack[i] != needle[j]) {
-                j = next[j - 1];
-            }
-            
-            if (haystack[i] == needle[j]) {
-                j++;
-            }
-            
-            if (j == len2) {
-                return i - len2 + 1;
-            }
+        if(!((s[i]>='a'&&s[i]<='z')||(s[i]>='0'&&s[i]<='9')))
+        {
+            ++con;
+        }
+        else
+        {
+            s[i-con]=s[i];
         }
     }
-        return -1;
+    int lenc=len-con;
+
+    for(int i=0;i<=lenc/2;i++)
+    {
+        if(s[i]!=s[lenc-i-1])
+            return false;
+    }
+    return true;
+
 }
 
 int main()
 {
-    int r=strStr("leetcode","leeto");
-    cout<<r;
-    return  0;
+    string s="A man, a plan, a canal: Panama";
+    cout<<isPalindrome(s);
+    return 0;
 }

@@ -92,3 +92,22 @@ public:
 [官解](https://leetcode.cn/problems/pascals-triangle-ii/)    
 
 
+#### **136.只出现一次的数字**
+    可以用常数数组；
+    下面这个简直天才解法；
+```cpp
+int singleNumber(vector<int>& nums) {
+    int result = 0;
+    for(auto num:nums)
+    {
+        result^=num;
+    }
+    return result;
+}
+```
+
+#### **141.环形指针**
+    快慢指针
+
+####  **二叉树的前中后-层次遍历**
+    递归加循环
