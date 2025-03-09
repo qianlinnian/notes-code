@@ -1,40 +1,51 @@
 #include<iostream>
 #include<string>
-using namespace std;
+#include<set>
+using namespace std; 
 
-bool isPalindrome(string s) {
-    int len=s.length();
-    int con=0;
-    for(int i=0;i<len;i++)
-    {
-        if(s[i]>='A'&&s[i]<='Z')
-        {
-            s[i]+='a'-'A';
-            continue;
-        }
-        if(!((s[i]>='a'&&s[i]<='z')||(s[i]>='0'&&s[i]<='9')))
-        {
-            ++con;
-        }
-        else
-        {
-            s[i-con]=s[i];
-        }
-    }
-    int lenc=len-con;
-
-    for(int i=0;i<=lenc/2;i++)
-    {
-        if(s[i]!=s[lenc-i-1])
-            return false;
-    }
-    return true;
-
-}
-
-int main()
+int next(int n)
 {
-    string s="A man, a plan, a canal: Panama";
-    cout<<isPalindrome(s);
-    return 0;
+    int res=0;
+    while(n)
+    {
+        res+=(n%10)*(n%10);
+        n/=10;
+    }
+    cout<<res<<'f';
+    return res;
 }
+
+bool isHappy(int n) {
+            string r=to_string(n);
+            set<int> nums;
+            nums.insert(n);
+    
+            while(n)
+            {
+                
+                if(n==1)
+                {
+                    return true;
+                }
+                else 
+                {
+                    n=next(n); 
+                    if(find(nums.begin(),nums.end(),n)==nums.end())
+                    {
+                        nums.insert(n);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+    int main()
+    {
+        int n;
+        cin>>n;
+        cout<<isHappy(n);
+        return 0;
+    }
