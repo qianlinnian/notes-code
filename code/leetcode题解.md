@@ -7,8 +7,47 @@
     似乎应该使用双指针。
     题解：使用双指针，遍历，当sum>target 的时候，r左移，<的时候，l右移，=结束，每次都进行比较以及更新数字。
 
-#### **17电话号码对应的数字**
+#### **17_电话号码的数字组合**
+1. 回溯法
+```cpp
+    class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> combinations;
+        if (digits.empty()) {
+            return combinations;
+        }
+        unordered_map<char, string> phoneMap{
+            {'2', "abc"},
+            {'3', "def"},
+            {'4', "ghi"},
+            {'5', "jkl"},
+            {'6', "mno"},
+            {'7', "pqrs"},
+            {'8', "tuv"},
+            {'9', "wxyz"}
+        };
+        string combination;
+        backtrack(combinations, phoneMap, digits, 0, combination);
+        return combinations;
+    }
 
+    void backtrack(vector<string>& combinations, const unordered_map<char, string>& phoneMap, const string& digits, int index, string& combination) {
+        if (index == digits.length()) {
+            combinations.push_back(combination);
+        } else {
+            char digit = digits[index];
+            const string& letters = phoneMap.at(digit);
+            for (const char& letter: letters) {
+                combination.push_back(letter);
+                backtrack(combinations, phoneMap, digits, index + 1, combination);
+                combination.pop_back();
+            }
+        }
+    }
+};
+
+```
 #### **258_各相位相加**    
     数根又称数字根（Digital root），是自然数的一种性质，每个自然数都有一个数根。
     对于给定的自然数，反复将各个位上的数字相加，直到结果为一位数，则该一位数即为原自然数的数根。
@@ -163,4 +202,12 @@ public:
     不同字符不能映射到同一个字符上
     映射必须是双向的（一一对应）
 
-#### ****
+#### **383.赎金信**
+    题目描述：
+    给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。如果可以，返回 true ；否则返回 false 。magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+ 
+1. 可以排序，后对字符串进行遍历检查。
+2. ![官方题解](image-11.png)     
+   
+   
