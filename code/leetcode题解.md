@@ -210,4 +210,26 @@ public:
 1. 可以排序，后对字符串进行遍历检查。
 2. ![官方题解](image-11.png)     
    
-   
+#### **405.数字转变为16进制**
+位运算：题目要求将给定的整数 num 转换为十六进制数，负整数使用补码运算方法。   
+在补码运算中，最高位表示符号位，符号位是 0 表示正整数和零，符号位是 1 表示负整数。32 位有符号整数的二进制数有 32 位，由于一位十六进制数对应四位二进制数，因此 32 位有符号整数的十六进制数有 8 位。将 num 的二进制数按照四位一组分成 8 组，依次将每一组转换为对应的十六进制数，即可得到 num 的十六进制数。
+```cpp
+class Solution {
+public:
+    string toHex(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        string sb;
+        for (int i = 7; i >= 0; i --) {
+            int val = (num >> (4 * i)) & 0xf;
+            if (sb.length() > 0 || val > 0) {
+                char digit = val < 10 ? (char) ('0' + val) : (char) ('a' + val - 10);
+                sb.push_back(digit);
+            }
+        }
+        return sb;
+    }
+};
+ 
+```
