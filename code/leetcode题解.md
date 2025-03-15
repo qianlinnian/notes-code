@@ -233,3 +233,30 @@ public:
 };
  
 ```
+
+#### **434.字符串中的单词数**
+```cpp
+istringstream iss(s);
+        string word;
+        int re=0;
+
+        while(iss >> word)
+        {
+            re++;
+        }
+```
+    istringstream 将字符串转变为字符串流
+
+继承关系
+
+    istringstream 是 stringstream 的特化版本
+    stringstream 继承自 iostream（同时支持输入和输出）
+    istringstream 继承自 istream（仅支持输入）
+
+功能范围
+
+    stringstream：支持读取和写入操作
+    istringstream：仅支持读取操作
+头文件   
+
+    两者都在 <sstream> 头文件中定义
