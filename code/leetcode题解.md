@@ -260,3 +260,18 @@ istringstream iss(s);
 头文件   
 
     两者都在 <sstream> 头文件中定义
+
+#### **492.构造矩形**
+```cpp
+class Solution {
+public:
+    vector<int> constructRectangle(int area) {
+        int w = sqrt(1.0*area);
+        while (area % w) {
+            --w;
+        }
+        return {area / w, w};
+    }
+};
+```
+时间复杂度较低
