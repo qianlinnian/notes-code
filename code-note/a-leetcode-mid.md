@@ -28,3 +28,45 @@
 方法一：暴力法
 思路:
     我们可以生成所有 2^n个 ‘(’ 和 ‘)’ 字符构成的序列，然后我们检查每一个是否有效即可。
+
+##### *3488.距离最小相等元素查询*
+
+> 看示例 1，所有 1 的下标列表是 p=[0,2,4]。
+    由于 nums 是循环数组：
+    在下标列表前面添加 4−n=−3，相当于认为在 −3 下标处也有一个 1。   
+    在下标列表末尾添加 0+n=7，相当于认为在 7 下标处也有一个 1。
+        p[j−1] 就是在 i 左边的最近位置。
+        p[j+1] 就是在 i 右边的最近位置。
+        两个距离取最小值，答案为    min(i−p[j−1],p[j+1]−i)
+    如果 nums[i] 在 nums 中只出现了一次，那么答案为 −1。
+```cpp
+class Solution {
+public:
+    vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
+        unordered_map<int, vector<int>> indices;        //哈希表<int,vector<int>> 用于存储数字和坐标
+        for (int i = 0; i < nums.size(); i++) {
+            indices[nums[i]].push_back(i);              //输入num[i] 的当前的坐标
+        }
+
+        int n = nums.size();                            //数组大小
+        for (auto& [_, p] : indices) {
+            // 前后各加一个哨兵
+            int i0 = p[0];                              //保存第一个元素
+            p.insert(p.begin(), p.back() - n);          //在首位插入哨兵，哨兵值为末位置值-n
+            p.push_back(i0 + n);                        //在末尾插入哨兵，哨兵值为i0+n
+        }
+        //哨兵值为循环数组坐标
+
+        for (int& i : queries) {                        // 注意这里是引用
+            auto& p = indices[nums[i]];                 // 这里应该也是引用
+            if (p.size() == 3) {                        //判断大小 如果是3 则本数字在数组中只出现了1次，所以没有重复的数字。标记为-1；  答案直接存储在了queries里面，节省了存储空间。
+                i = -1;
+            } else {
+                int j = ranges::lower_bound(p, i) - p.begin();//这行代码在数组p中查找第一个大于等于i的元素位置，并返回该位置的索引。
+                i = min(i - p[j - 1], p[j + 1] - i);    //取最小值
+            }
+        }
+        return queries;         //询问变为答案数组。
+    }
+};
+```
