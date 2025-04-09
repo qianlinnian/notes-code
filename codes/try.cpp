@@ -1,37 +1,37 @@
 #include<iostream>
 #include<string>
-#include<set>
 using namespace std; 
-bool isAnagram(string s, string t) {
-    int ss[27]={0},tt[27]={0};
 
-    int len=s.length();
-    int len1=t.length();
-    if(len!=len1)
+
+string countAndSay(int n) {
+    if(n==1)
+        return "1";
+    else 
     {
-        return false;
-    }
-    
-    for(int i=0;i<len;i++)
-    {
-        //cout<<s[i]<<' ';
-        ss[s[i]-'a']++;
-        tt[t[i]-'a']++;
-    } 
-    for(int i=0;i<=26;i++)
-    {
-        cout<<ss[i]<<' ';
-        if(ss[i]!=tt[i])
+        string last=countAndSay(n-1);
+        string ans;
+        int len=last.length(); 
+        for(int i=0;i<len;)
         {
-            return false;
+            int count=1;    
+
+            while(++i<len && last[i]==last[i-1])
+            {
+                count++;
+            }
+            ans += '0' + count;
+            ans += last[i-1];            
         }
+        return ans;
     }
-    return true;
 }
-    int main()
-    {
-        string s="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
-        string t="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbba";
-        cout<<isAnagram(s,t);
-        return 0;
-    }
+
+int main()
+{
+    cout<<countAndSay(1)<<endl; // Output: "1"
+    cout<<countAndSay(2)<<endl; // Output: "11"
+    cout<<countAndSay(3)<<endl; // Output: "21"
+    cout<<countAndSay(4)<<endl; // Output: "1211"
+    cout<<countAndSay(5)<<endl; // Output: "111221"
+    return 0;
+}

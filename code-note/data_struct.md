@@ -199,3 +199,48 @@ f(i,j)=min{f(i,j-1),f(i+2^(j-1),j-1)}来使用动态规划计算出来。
 #### vector
 `nums.erase(nums.begin() + i)`
 #### 主席树
+
+#### bitset 
+> bitset 是 C++ 标准库中的一个模板类，用于高效地存储和操作固定大小的二进制位集合。
+
+> bitset 的特点:
+    固定大小：bitset<N> 的大小在编译时确定，表示它可以存储最多 N 位。
+    高效存储：bitset 使用位级存储，比普通数组节省内存（例如，bitset<9> 只需要 9 位，约等于 1 个字节）。
+    快速操作：支持按位操作（如与、或、非），以及一些高级操作（如计数、翻转等）。    
+    接口丰富：提供了易用的成员函数，比如 set、reset、test、count 等。
+
+```cpp
+#include <iostream>
+#include <bitset>
+using namespace std;
+
+int main() {
+    // 定义一个大小为9的bitset
+    bitset<9> b;
+
+    // 设置第3位为1（从右往左，第0位是最低位）
+    b.set(2);
+    cout << "After setting bit 2: " << b << endl; // 输出: 000000100
+
+    // 测试第3位是否为1
+    cout << "Bit 2 is set? " << b.test(2) << endl; // 输出: 1
+
+    // 设置第5位为1
+    b.set(4);
+    cout << "After setting bit 4: " << b << endl; // 输出: 000010100
+
+    // 统计有多少位是1
+    cout << "Number of 1s: " << b.count() << endl; // 输出: 2
+
+    // 重置第3位为0
+    b.reset(2);
+    cout << "After resetting bit 2: " << b << endl; // 输出: 000010000
+
+    // 取反操作
+    b.flip();
+    cout << "After flipping bits: " << b << endl; // 输出: 111101111
+
+    return 0;
+}
+```
+
