@@ -131,3 +131,216 @@ public:
 };
 
 ```
+
+#### *43.字符串相乘*
+> 方法一：做加法
+    如果 num 1  和 num2  之一是 0，则直接将 0 作为结果返回即可。
+    如果 num 1  和 num 2 都不是 0，则可以通过模拟「竖式乘法」的方法计算乘积。从右往左遍历乘数，将乘数的每一位与被乘数相乘得到对应的结果，再将每次得到的结果累加。这道题中，被乘数是 num 1 ，乘数是 num 2 。
+   -  需要注意的是，num 2 除了最低位以外，其余的每一位的运算结果都需要补 0。
+```cpp
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        //如果 其中有一个是0 结果一定是0
+        if (num1 == "0" || num2 == "0") {
+            return "0";
+        }
+
+        string ans = "0";//存储答案
+        int m = num1.size(), n = num2.size();
+        for (int i = n - 1; i >= 0; i--) {
+            //从右向左便遍历 对于num1 
+            string curr;//存储当前的结果
+            int add = 0;
+            //补充0 位
+            for (int j = n - 1; j > i; j--) {
+                curr.push_back(0);
+            }
+            int y = num2.at(i) - '0'; //y是 num1 第i位置的数值
+            for (int j = m - 1; j >= 0; j--) {
+                int x = num1.at(j) - '0';   //num2 第j位
+                int product = x * y + add;  //求取当前位置的
+                curr.push_back(product % 10);
+                add = product / 10;         //add是进位
+            }
+            while (add != 0) {
+                curr.push_back(add % 10);//补充进位
+                add /= 10;
+            }
+            reverse(curr.begin(), curr.end());
+            for (auto &c : curr) {
+                c += '0';                   //补充‘0’ 使得转变为了字符数字
+            }
+            ans = addStrings(ans, curr);    //添加字符串 计算  字符串相加计算
+        }
+        return ans;
+    }
+
+    string addStrings(string &num1, string &num2) {
+        int i = num1.size() - 1, j = num2.size() - 1, add = 0;  //从右到左遍历
+        string ans;                                             //答案
+        while (i >= 0 || j >= 0 || add != 0) {                  //有一个字符串没有遍历完 或者进位非零
+            int x = i >= 0 ? num1.at(i) - '0' : 0;              
+            int y = j >= 0 ? num2.at(j) - '0' : 0;
+            int result = x + y + add;                           //当前位计算结果
+            ans.push_back(result % 10);                         //放入结果
+            add = result / 10;                                  //更新进位
+            i--;                                                    
+            j--;                                                //更新 i 和 j
+        }
+        reverse(ans.begin(), ans.end());                        //翻转
+        for (auto &c: ans) {
+            c += '0';                                           //同理更新字符
+        }
+        return ans;
+    }
+}; 
+```
+> 方法二：
+> 方法一的做法是从右往左遍历乘数，将乘数的每一位与被乘数相乘得到对应的结果，再将每次得到的结果累加，整个过程中涉及到较多字符串相加的操作。如果使用数组代替字符串存储结果，则可以减少对字符串的操作。
+> 令 m 和 n 分别表示 num 1  和 num 2  的长度，并且它们均不为 0，则 num 1  和 num 2  的乘积的长度为 m+n−1 或 m+n。简单证明如下：如果num 1  和 num 2  都取最小值，则 num 1 =10 m−1 ，num 2 =10 n−1 ，num 1 ×num 2 =10 m+n−2 ，乘积的长度为 m+n−1；如果 num 1  和 num 2  都取最大值，则 num 1 =10 m −1，num 2 =10 n −1，num 1 ×num 2 =10 m+n −10 m −10 n +1，乘积显然小于 10 m+n  且大于 10 m+n−1 ，因此乘积的长度为 m+n。由于 num 1  和 num 2​  的乘积的最大长度为 m+n，因此创建长度为 m+n 的数组 ansArr 用于存储乘积。对于任意 0≤i <  m 和 0≤j < n ，num 1 [i]×num 2​ [j] 的结果位于 ansArr[i+j+1]，如果 ansArr[i+j+1]≥10，则将进位部分加到 ansArr[i+j]。
+> 最后，将数组 ansArr 转成字符串，如果最高位是 0 则舍弃最高位。
+```cpp
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        if (num1 == "0" || num2 == "0") {
+            return "0";
+        }
+        int m = num1.size(), n = num2.size();
+        auto ansArr = vector<int>(m + n);
+        for (int i = m - 1; i >= 0; i--) {
+            int x = num1.at(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int y = num2.at(j) - '0';
+                ansArr[i + j + 1] += x * y;
+            }
+        }
+        for (int i = m + n - 1; i > 0; i--) {
+            ansArr[i - 1] += ansArr[i] / 10;
+            ansArr[i] %= 10;
+        }
+        int index = ansArr[0] == 0 ? 1 : 0;
+        string ans;
+        while (index < m + n) {
+            ans.push_back(ansArr[index]);
+            index++;
+        }
+        for (auto &c: ans) {
+            c += '0';
+        }
+        return ans;
+    }
+};
+```
+#### *257.二叉树的所有路径*
+> 题解1 ： dfs
+> 题解2 ： bfs
+
+```cpp
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        if (root == nullptr) {
+            return paths;
+        }
+        queue<TreeNode*> node_queue;
+        queue<string> path_queue;
+
+        node_queue.push(root);
+        path_queue.push(to_string(root->val));
+
+        while (!node_queue.empty()) {
+            TreeNode* node = node_queue.front(); 
+            string path = path_queue.front();
+            node_queue.pop();
+            path_queue.pop();
+
+            if (node->left == nullptr && node->right == nullptr) {
+                paths.push_back(path);
+            } else {
+                if (node->left != nullptr) {
+                    node_queue.push(node->left);
+                    path_queue.push(path + "->" + to_string(node->left->val));
+                }
+
+                if (node->right != nullptr) {
+                    node_queue.push(node->right);
+                    path_queue.push(path + "->" + to_string(node->right->val));
+                }
+            }
+        }
+        return paths;
+    }
+};
+```
+
+#### *260.只出现一次的数字III*
+`int mask = xor & (-xor);`
+掩码：
+- xor是一个原始数值
+- -xor 是 xor 的二进制补码（二进制取反再加1）
+- 用于寻找最低位的`0`
+
+> 根据最右侧的 最低位的1 进行分治 注意爆int
+```cpp
+// 步骤1: 对所有元素进行异或操作
+    long long int xorResult = 0;
+    for (int num : nums) {
+        xorResult ^= num;
+    }
+    
+    // 步骤2: 找到异或结果中最右边的1
+    long long int mask = xorResult & (-xorResult);
+    
+    // 步骤3: 根据该位将数组分成两组并分别异或
+    vector<int> result(2, 0);
+    for (int num : nums) {
+        if (num & mask) {
+            result[0] ^= num;
+        } else {
+            result[1] ^= num;
+        }
+    }
+    
+    return result;
+```
+> 根据最高位的1 进行分治
+```cpp
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        //首先得到两个元素的异或值
+        size_t sum = 0;
+        for(int i = 0; i < nums.size(); ++i)
+        {
+            sum ^= nums[i];
+        }
+        //找到第一个1
+        int pos = 0;
+        for(int j = 0; j < 32; ++j)
+        {
+            int _sum = sum >> j;
+            if(_sum & 1)
+            {
+                pos = j;
+            }
+        }
+        //分批次异或
+        vector<int> v(2, 0);
+        for(int i = 0; i < nums.size(); ++i)
+        {
+            if((nums[i] >> pos) & 1)
+            {
+                v[0] ^= nums[i];
+            }
+            else
+            {
+                v[1] ^= nums[i];
+            }
+        }
+        return v;
+    }
+};
+```
