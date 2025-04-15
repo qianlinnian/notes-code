@@ -344,3 +344,47 @@ public:
     }
 };
 ```
+
+#### *402.移掉k位数字*
+> 给你一个以字符串表示的非负整数 num 和一个整数 k ，移除这个数中的 k 位数字，使得剩下的数字最小。请你以字符串形式返回这个最小的数字。
+
+> 遍历删除 左侧元素比当前元素大的话，删除左侧元素
+
+
+#### *650.两个键的键盘*
+![problem](image-16.png)
+
+1. 动态规划
+    定义 $f[i][j]$ 为经过最后一次操作后，当前记事本上有 $i$ 个字符，黏贴版上有 $j$ 个字符的最小操作次数
+    $as for f[i][j]  j <= i$
+    最后一次的操作是*paste* 即$f[i][j]=f[i-j][j]+1$
+    最后一次操作时*copy all* 即$f[i][i]=min (f[i][x] + 1)$
+    *可以使用一个变量 min 保存前面转移的最小值，用来更新最后的$f[i][j]$*
+    
+2. 数学
+    ![数学方法](image-17.png)
+3. 打表
+4. dfs
+    ```cpp
+        // DFS递归
+    public static int minSteps(int n) {
+        if (n == 1) return 0;
+        return dfs(n, 1, 0);
+    }
+
+    // n：固定参数，要达到的目标（输出n个'A'）
+    // cur：当前记事本上已输出的'A'的数量
+    // paste：当前粘贴板上已有的'A'的数量
+    // 返回：在当前cur、paste的情况下，达到目标，所需要的最少操作次数
+    private static int dfs(int n, int cur, int paste) {
+        if (cur == n) return 0; // 当前记事本输出已达目标，无需操作
+        if (cur > n) return INF; // 当前记事本输出超过了目标，不可能达到目标，表示之前的DFS尝试方案无效
+        // 1）本次操作，选择复制（如果当前粘贴板上'A'数量 != 当前记事本上'A'数量，则可以有此选择，否则，复制操作无意义，不做此选择）：
+        int p1 = cur != paste ? 1 + dfs(n, cur, cur) : INF;
+        // 2）本次操作，选择粘贴（如果当前粘贴板上'A'数量 > 0，则可以有此选择，否则，粘贴操作无意义，不做此选择）：
+        int p2 = paste > 0 ? 1 + dfs(n, cur+paste, paste) : INF;
+        return Math.min(p1, p2);
+    }
+
+    private static final int INF = Integer.MAX_VALUE/2;
+    ```
