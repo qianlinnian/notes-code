@@ -388,3 +388,165 @@ public:
 
     private static final int INF = Integer.MAX_VALUE/2;
     ```
+
+#### *47.全排列II*
+> 含有重复数字的全排列
+
+- 排序：先将数组排序，使相同的数字相邻
+- 标记数组：使用 vis 数组记录哪些元素已被使用
+- 剪枝条件：对于重复元素，只有在前一个相同元素已被使用的情况下，才能使用当前元素
+
+#### *LCR 004 只出现一次的数字*
+整数数组nums 某个元素只出现一次 其他每个都出现三次
+`位运算`
+> 答案的第i个二进制位就是数组中所有元素的第i个二进制位置和除以三的余数
+```cpp
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ans = 0;
+        for (int i = 0; i < 32; ++i) {
+            int total = 0;
+            for (int num: nums) {
+                total += ((num >> i) & 1);      // 取第i位的数值
+            }
+            if (total % 3) {
+                ans |= (1 << i);            // 将第i位的值加入到ans
+            }
+        }
+        return ans;
+    }
+};     
+```
+
+#### *LCR 005 最大单词长度的乘积*
+> 给定一个字符串数组 words 请计算当两个字符串words[i] 和 word[j] 不包含相同字符时，他们长度乘积的最大值
+
+将字母转换为二进制数。两个二进制数& 为0则，没有相同的字母。
+
+#### *48.旋转图像*
+> 给出了一个 $ n*n $ 的二维矩阵，将图像顺时针旋转90度。 原地旋转
+
+计算下一个变量的位置，用temp存储，避免被覆盖。  
+$matrix[row][col]=matrix[n−col−1][row]$   
+
+```cpp
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        for (int i = 0; i < n / 2; ++i) {
+            for (int j = 0; j < (n + 1) / 2; ++j) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+};
+```
+
+#### *49.字母异位词分组*
+```cpp
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // 自定义对 array<int, 26> 类型的哈希函数
+        auto arrayHash = [fn = hash<int>{}] (const array<int, 26>& arr) -> size_t {
+            return accumulate(arr.begin(), arr.end(), 0u, [&](size_t acc, int num) {
+                return (acc << 1) ^ fn(num);
+            });
+        };
+
+        unordered_map<array<int, 26>, vector<string>, decltype(arrayHash)> mp(0, arrayHash);
+        for (string& str: strs) {
+            array<int, 26> counts{};
+            int length = str.length();
+            for (int i = 0; i < length; ++i) {
+                counts[str[i] - 'a'] ++;
+            }
+            mp[counts].emplace_back(str);
+        }
+        vector<vector<string>> ans;
+        for (auto it = mp.begin(); it != mp.end(); ++it) {
+            ans.emplace_back(it->second);
+        }
+        return ans;
+    }
+};
+```
+
+#### *54.螺旋矩阵*
+给一个 m行 n列的矩阵 按照顺时针螺旋顺序旋转，返回矩阵中所有元素。
+
+```cpp
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector <int> ans;
+        if(matrix.empty()) return ans; //若数组为空，直接返回答案
+        int u = 0; //赋值上下左右边界
+        int d = matrix.size() - 1;
+        int l = 0;
+        int r = matrix[0].size() - 1;
+        while(true)
+        {
+            for(int i = l; i <= r; ++i) ans.push_back(matrix[u][i]); //向右移动直到最右
+            if(++ u > d) break; //重新设定上边界，若上边界大于下边界，则遍历遍历完成，下同
+            for(int i = u; i <= d; ++i) ans.push_back(matrix[i][r]); //向下
+            if(-- r < l) break; //重新设定有边界
+            for(int i = r; i >= l; --i) ans.push_back(matrix[d][i]); //向左
+            if(-- d < u) break; //重新设定下边界
+            for(int i = d; i >= u; --i) ans.push_back(matrix[i][l]); //向上
+            if(++ l > r) break; //重新设定左边界
+        }
+        return ans;
+    }
+}; 
+```
+
+#### *56.合并区间*
+> 以数组 Intervals 表示右若干个区间的集合，其中单个区间为 intervals[i]=[start,end] 合并所有的重叠区间，并回一个不重叠的区间数组，
+
+    首先，我们将列表中的区间按照左端点升序排序。然后我们将第一个区间加入 merged 数组中，并按顺序依次考虑之后的每个区间：
+
+    如果当前区间的左端点在数组 merged 中最后一个区间的右端点之后，那么它们不会重合，我们可以直接将这个区间加入数组 merged 的末尾；
+
+    否则，它们重合，我们需要用当前区间的右端点更新数组 merged 中最后一个区间的右端点，将其置为二者的较大值
+ 
+#### *57.插入区间*
+不重叠，需满足：绿区间的右端，位于蓝区间的左端的左边，如 [1,2]。  
+
+则当前绿区间，推入 res 数组，指针 +1，考察下一个绿区间。  
+循环结束时，当前绿区间的屁股，就没落在蓝区间之前，有重叠了，如 [3,5]。  
+现在看重叠的。我们反过来想，没重叠，就要满足：绿区间的左端，落在蓝区间的屁股的后面，反之就有重叠：绿区间的左端 <= 蓝区间的右端，极端的例子就是 [8,10]。   
+
+和蓝有重叠的区间，会合并成一个区间：左端取蓝绿左端的较小者，右端取蓝绿右端的较大者，不断更新给蓝区间。  
+循环结束时，将蓝区间（它是合并后的新区间）推入 res 数组。  
+剩下的，都在蓝区间右边，不重叠。不用额外判断，依次推入 res 数组。  
+
+
+#### *61.旋转链表*
+闭合成环后在断开。
+记给定链表的长度为 n，注意到当向右移动的次数 k≥n 时，我们仅需要向右移动 kmodn 次即可。因为每 n 次移动都会让链表变为原状。这样我们可以知道，新链表的最后一个节点为原链表的第 (n−1)−(kmodn) 个节点（从 0 开始计数）。
+
+这样，我们可以先将给定的链表连接成环，然后将指定位置断开。
+
+具体代码中，我们首先计算出链表的长度 n，并找到该链表的末尾节点，将其与头节点相连。这样就得到了闭合为环的链表。然后我们找到新链表的最后一个节点（即原链表的第 (n−1)−(kmodn) 个节点），将当前闭合为环的链表断开，即可得到我们所需要的结果。
+
+特别地，当链表长度不大于 1，或者 k 为 n 的倍数时，新链表将与原链表相同，我们无需进行任何处理。
+ 
+
+ #### *697.数组的度*
+> 给定一个非空的且只包含非负数的整数数组 $nums$ 数组的度的定义是指数组中，任意元素的出现频数的最大值
+> 在$nums$中找到与$nums$拥有相同大小的度的最短的连续子数组
+
+- 方法一： 哈希表
+  - 记录原数组中出现次数最多的数为x，那么和原数组的度相同的最短连续子数组，必然包含了原数组中全部的x，且两端恰为x第一次出现和x最后一次出现的位置。
+  - 因为符合条件的x可能有很多个，即多个不同的数在原数组中出现的次数相同，所以为了找到这个子数组，我们需要统计每一个数字出现的次数和第一次出现最后一次出现的位置。
+
+#### *698.划分为k个相等的子集*
+    
+
