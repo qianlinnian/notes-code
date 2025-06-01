@@ -18,7 +18,7 @@
 ### Measuring Input Size
    1. 效率受到输入规模的影响
 ### Theoretical Analysis of Time Efficiency
-   shi
+   
 ### Order of growth
     1 - log n - n - n log n - n^2 - n^3 - 2^n - n!
 
