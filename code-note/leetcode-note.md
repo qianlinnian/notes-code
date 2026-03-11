@@ -47,13 +47,7 @@
         - `substr(pos, len)` - 截取子串
         - `pop_back()` - 删除末尾字符
         - `push_back(ch)` - 末尾添加字符
-
-    8. 示例
-        ```cpp
-        string s = "hello";
-        s.push_back('!');  // "hello!"
-        s.substr(0, 5);    // "hello"
-        s.find("ll");      // 返回 2
-        stoi("123");       // 转整数
-        to_string(456);    // "456"
+    8. 
+        -
+ 
         ```
