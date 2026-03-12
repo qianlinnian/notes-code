@@ -51,3 +51,23 @@
         -
  
         ```
+
+3. 数组
+    vector
+    1. 添加和删除
+        - `push_back(value)` - 在末尾添加元素
+        - `pop_back()` - 删除末尾元素
+        - `insert(pos, value)` - 在位置 pos 插入元素
+        - `erase(pos)` - 删除位置 pos 的元素
+        - `clear()` - 清空数组
+
+    2. 访问和查询
+        - `at(index)` 或 `[index]` - 访问指定位置的元素（at 会检查越界）
+        - `size()` - 返回数组大小
+        - `empty()` - 检查数组是否为空
+        - `front()` - 返回第一个元素
+        - `back()` - 返回最后一个元素
+
+    3. 排序和查找
+        - `sort(vec.begin(), vec.end())` - 对数组进行排序
+        - `find(vec.begin(), vec.end(), value)` - 查找元素位置，未找到返回 vec.end()
