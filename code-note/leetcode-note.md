@@ -71,3 +71,19 @@
     3. 排序和查找
         - `sort(vec.begin(), vec.end())` - 对数组进行排序
         - `find(vec.begin(), vec.end(), value)` - 查找元素位置，未找到返回 vec.end()
+
+4. 常用计算技巧
+    - `accumulate(vec.begin(), vec.end(), 0)` - 求和（需 `#include <numeric>`）
+    - `sort(vec.begin(), vec.end())` - 排序（需 `#include <algorithm>`）
+    - `reverse(vec.begin(), vec.end())` - 反转
+    - `unique(vec.begin(), vec.end())` - 去重（需配合排序和erase）
+    - `copy(vec.begin(), vec.end(), dest.begin())` - 拷贝
+    - `count(vec.begin(), vec.end(), value)` - 统计某值出现次数
+    - `max_element(vec.begin(), vec.end())` - 最大值
+    - `min_element(vec.begin(), vec.end())` - 最小值
+
+    示例：
+    ```cpp
+    int suma = accumulate(aliceSizes.begin(), aliceSizes.end(), 0); // 求和
+    sort(aliceSizes.begin(), aliceSizes.end()); // 排序
+    ```

@@ -1,4 +1,50 @@
 
+1. [79] 回溯/DFS实现单词搜索
+
+    **思路与算法**
+    给定一个二维网格和一个单词，判断单词是否能通过上下左右相邻的格子顺序组成。每个格子只能使用一次。
+
+    回溯/DFS通用模板：
+    - 递归出口：匹配到目标或越界/不合法。
+    - 每步尝试所有可能选择，递归后要撤销。
+    - 用visited等辅助数组记录状态。
+    - 多刷类似题目，熟悉套路。
+
+    **代码**
+
+    ```cpp
+    // 通用回溯/DFS模板
+    void dfs(参数...) {
+        // 递归出口
+        if (满足终止条件) {
+            记录结果;
+            return;
+        }
+        for (遍历选择列表) {
+            if (不合法则跳过) continue;
+            做选择;
+            dfs(下一步参数...);
+            撤销选择;
+        }
+    }
+
+    // 典型应用：二维矩阵路径搜索
+    bool dfs(vector<vector<char>>& board, string& word, int x, int y, int idx, vector<vector<bool>>& visited) {
+        if (board[x][y] != word[idx]) return false;
+        if (idx == word.size() - 1) return true;
+        visited[x][y] = true;
+        int dirs[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
+        for (int d = 0; d < 4; ++d) {
+            int nx = x + dirs[d][0], ny = y + dirs[d][1];
+            if (nx >= 0 && nx < board.size() && ny >= 0 && ny < board[0].size() && !visited[nx][ny]) {
+                if (dfs(board, word, nx, ny, idx + 1, visited)) return true;
+            }
+        }
+        visited[x][y] = false;
+        return false;
+    }
+    ```
+
 1. [88] 非递归（字典序法）实现组合型枚举
 
     **思路与算法**
