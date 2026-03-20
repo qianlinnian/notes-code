@@ -87,3 +87,10 @@
     int suma = accumulate(aliceSizes.begin(), aliceSizes.end(), 0); // 求和
     sort(aliceSizes.begin(), aliceSizes.end()); // 排序
     ```
+
+4. GCD
+    - `gcd(a, b)` - 计算 a 和 b 的最大公约数（需 `#include <numeric>`）
+    - `lcm(a, b)` - 计算 a 和 b 的最小公倍数（需 `#include <numeric>`）
+    - `__gcd(a, b)` - 计算 a 和 b 的最大公约数（GCC 内置函数）
+    - `__lcm(a, b)` - 计算 a 和 b 的最小公倍数（GCC 内置函数）
+
