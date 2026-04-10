@@ -1,5 +1,15 @@
 1. 哈希
     unordered_set
+    unordered_map
+    1. 插入和删除
+        - `insert(value)` - 插入元素
+        - `erase(key)` - 删除指定键的元素
+        - `clear()` - 清空哈希表
+    3. 访问和查询
+        - `find(key)` - 查找键，返回迭代器，未找到返回 end()
+        - `count(key)` - 统计键出现次数（0 或 1）
+        - `size()` - 返回哈希表大小
+        - `empty()` - 检查哈希表是否为空
 
 2. 字符串 
     stringstream 把字符串改变为了流
@@ -88,7 +98,7 @@
     sort(aliceSizes.begin(), aliceSizes.end()); // 排序
     ```
 
-4. GCD
+5. GCD
     - `gcd(a, b)` - 计算 a 和 b 的最大公约数（需 `#include <numeric>`）
     - `lcm(a, b)` - 计算 a 和 b 的最小公倍数（需 `#include <numeric>`）
     - `__gcd(a, b)` - 计算 a 和 b 的最大公约数（GCC 内置函数）
