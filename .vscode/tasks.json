@@ -43,6 +43,54 @@
                 "isDefault": true
             },
             "detail": "调试器生成的任务。"
+        },
+        {
+            "type": "shell",
+            "label": "CPH: 按来源整理（一次）",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\tools\\organize-cph.ps1"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "CPH: 自动按来源整理（监听）",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\tools\\organize-cph.ps1",
+                "-Watch"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "base": "$gcc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^\\[cph-organizer\\] watching$",
+                    "endsPattern": "^\\[cph-organizer\\] ready$"
+                }
+            },
+            "presentation": {
+                "reveal": "never",
+                "panel": "dedicated",
+                "close": false
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
         }
     ],
     "version": "2.0.0"
